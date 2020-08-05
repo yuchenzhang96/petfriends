@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="us-ascii">
+	<style type="text/css">button{
+width: 80px;
+height: 35px;
+background-color:#ebb549;
+color: white;
+border: none;
+font-size: 16px;
+border-radius: 12px;
+
+}
+
+
+body{
+  /* The image used */
+  background-image: url("/img/main_page.png");
+  background-size: auto 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; 
+  background-color: rgba(241,211,182,0.4); /* Black w/ opacity */
+  padding-top: 20px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+	</style>
+	<meta name="Homepage" content="Starting page for the survey website ">
+	<title>Survey HomePage</title>
+</head>
+<body>
+<p style="margin-left: 700px; text-align: center;"></p>
+
+<p style="margin-left: 700px; text-align: center;"><button id="signup_button" onclick="document.getElementById('signup_form').style.display='block'">Sign up</button>&nbsp;&nbsp; &nbsp;<button id="login_button" onclick="document.getElementById('login_form').style.display='block'">Log in</button></p>
+
+<div class="modal" id="signup_form">
+<form action="/signup_page.php" class="modal-content animate" method="post">
+<div class="imgcontainer" style="text-align: center;"><span class="close" onclick="document.getElementById('signup_form').style.display='none'" title="Close Modal">&nbsp;</span><img alt="happydog" class="dog" src="/img/signup_button.jpg" style="width:50%" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="first_name"><b>First Name</b></label> <input name="first_name" placeholder="Enter First Name" required="" type="text" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="last_name"><b>Last Name</b></label> <input name="last_name" placeholder="Enter Last Name" required="" type="text" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="email"><b>Email Address</b></label> <input name="email" placeholder="Enter Email" required="" type="text" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="psw"><b>Password</b></label> <input name="psw" placeholder="Enter Password" required="" type="password" />&nbsp; &nbsp;</div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="re_psw"><b>Re-Enter Password</b></label> <input name="re_psw" placeholder="Re-Enter Password" required="" type="password" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="role"><b>You would like to become a </b> <input name="customer" type="checkbox" />customer</label><input name="care_taker" type="checkbox" />care taker
+<p>(Choose one)</p>
+</div>
+
+<p style="text-align: center;"><input name="agree" required="required" type="checkbox" />By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms &amp; Privacy</a>.</p>
+
+<div class="container" style="text-align: center;"><button type="submit">Sign Up</button>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<button class="cancelbtn" onclick="document.getElementById('signup_form').style.display='none'" type="button">Cancel</button></div>
+</form>
+</div>
+
+<div class="modal" id="login_form">
+<form action="/login_page.php" class="modal-content animate" method="post">
+<div class="imgcontainer" style="text-align: center;"><span class="close" onclick="document.getElementById('login_form').style.display='none'" title="Close Modal">&nbsp;</span><img alt="happydog" class="dog" src="/img/login_button.jpg" style="width:50%" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="uname"><b>Username</b></label> <input name="uname" placeholder="Enter Username" required="" type="text" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><label for="psw"><b>Password</b></label> <input name="psw" placeholder="Enter Password" required="" type="password" /></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><span class="psw"><a href="#">Forgot password?</a></span></div>
+&nbsp;
+
+<div class="container" style="text-align: center;"><button type="submit">Login</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="cancelbtn" onclick="document.getElementById('login_form').style.display='none'" type="button">Cancel</button></div>
+</form>
+</div>
+</body>
+</html>

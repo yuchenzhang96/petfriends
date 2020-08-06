@@ -416,10 +416,10 @@ $role, $startdate, $enddate, $pet, $package, $quantity, $price, $residence, $yar
         $user_id = ($conn->query($get_id)->fetch_assoc())["UserID"];
         if($role == 'Customer'){
           // Customers
-          $insert = "INSERT INTO Customers (CustomerID, FromDate, ToDate) VALUES (?,?,?)";
-          $stmt = $conn->prepare($insert);
-          $stmt -> bind_param("iss", $user_id, $startdate, $enddate);
-          $stmt -> execute();
+          // $insert = "INSERT INTO Customers (CustomerID, FromDate, ToDate) VALUES (?,?,?)";
+          // $stmt = $conn->prepare($insert);
+          // $stmt -> bind_param("iss", $user_id, $startdate, $enddate);
+          // $stmt -> execute();
         }
         else { // Caretakers
           $insert = "INSERT INTO Caretakers (CaretakerID, FromDate, ToDate, Price, Yard, Children, ResidenceType, WTT) VALUES (?,?,?,?,?,?,?,?)";
@@ -462,7 +462,7 @@ function Reserve($email, $password, $caretakerID, $from, $to){
     $conn = SetupServer();
 
     $get_pass = "SELECT DISTINCT Password
-                 FROM Users U JOIN Customers C ON (U.UserID=C.CustomerID)
+                 FROM Users U 
                  WHERE U.Email = '$email'";
     $pass = ($conn->query($get_pass)->fetch_assoc())["Password"];
     
@@ -558,19 +558,22 @@ function RecommendRecords($zipcode){
             $minprice_sql = "SELECT MIN(Price) AS minprice FROM Caretakers";
             $minprice = ($conn->query($minprice_sql)->fetch_assoc())["minprice"];
 
-            $rating_sql = "UPDATE Caretakers SET Caretakers.Rating = 70 * (1 -(Caretakers.Price-'$minprice')/('$maxprice'-'$minprice')) + 10 * (1-Caretakers.Children) + 10 * Caretakers.Yard";
+            $rating_sql = "UPDATE Caretakers SET Caretakers.Rating = 70 * (1 -(Caretakers.Price-'$minprice')/('$maxprice'-'$minprice')) 
+            + 10 * (1-Caretakers.Children) + 10 * Caretakers.Yard";
             $rating = $conn->query($rating_sql);
 
             $type_sql = "UPDATE Caretakers SET Caretakers.Rating = Caretakers.Rating + 10 WHERE Caretakers.ResidenceType = 'House'";
             $type = $conn->query($type_sql);
             
-            $sql = "SELECT U.UserID AS id, U.Zipcode AS zip, C.Rating AS rating, C.FromDate AS fromdate, C.ToDate AS todate FROM Caretakers C LEFT JOIN Users U ON (U.UserID = C.CaretakerID)  WHERE Zipcode = '$zipcode' ORDER BY rating DESC" ;
+            $sql = "SELECT U.UserID AS id, U.Zipcode AS zip, C.Rating AS rating, C.FromDate AS fromdate, C.ToDate AS todate 
+            FROM Caretakers C LEFT JOIN Users U ON (U.UserID = C.CaretakerID)  
+            WHERE Zipcode = '$zipcode' ORDER BY rating DESC" ;
             $result = $conn->query($sql);
         
             if ($result->num_rows > 0) {
             // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "CaretakerID: " . $row["id"]. " - Zipcode: " . $row["zip"]. " - Rating: " . $row["rating"] . "\\100 - From: " . $row["fromdate"] ." - To: " . $row["todate"] ."<br>";
+                    echo "CaretakerID: " . $row["id"]. " - Zipcode: " . $row["zip"]. " - Rating: " . $row["rating"] . "/100 - From: " . $row["fromdate"] ." - To: " . $row["todate"] ."<br>";
                 }
                 echo "If you want to find other caretakers, please provide more details and we provide you the best caretaker!";
             } else {
@@ -598,13 +601,13 @@ function RecommendRecords($zipcode){
             $type_sql = "UPDATE Caretakers SET Caretakers.Rating = Caretakers.Rating + 10 WHERE Caretakers.ResidenceType = 'House'";
             $type = $conn->query($type_sql);
             
-            $sql = "SELECT U.UserID AS id, U.Zipcode AS zip, C.Rating AS rating, C.FromDate AS fromdate, C.ToDate AS todate FROM Caretakers C LEFT JOIN Users U ON (U.UserID = C.CaretakerID) ORDER BY ABS(U.Zipcode-$zipcode), rating DESC";
+            $sql = "SELECT U.UserID AS id, U.Zipcode AS zip, C.Rating AS rating, C.FromDate AS fromdate, C.ToDate AS todate FROM Caretakers C LEFT JOIN Users U ON (U.UserID = C.CaretakerID) ORDER BY ABS(U.Zipcode-$zipcode), rating DESC LIMIT 5";
             $result = $conn->query($sql);
         
             if ($result->num_rows > 0) {
             // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    echo "CaretakerID: " . $row["id"]. " - Zipcode: " . $row["zip"]. " - Rating: " . $row["rating"] . "\\100 - From: " . $row["fromdate"] ." - To: " . $row["todate"] ."<br>";
+                    echo "CaretakerID: " . $row["id"]. " - Zipcode: " . $row["zip"]. " - Rating: " . $row["rating"] . "/100 - From: " . $row["fromdate"] ." - To: " . $row["todate"] ."<br>";
 
                 }
                 echo "If you want to find other caretakers, please provide more details and we provide you the best caretaker!";
